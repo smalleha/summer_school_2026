@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mini_cobot">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import mini_cobot urdf file -->
+    <xacro:include filename="$(find scout_description)/urdf/mini_cobot.xacro" />
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="mini_cobot.ros2_control.xacro" />
+
+
+    <xacro:mini_cobot_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+</robot>

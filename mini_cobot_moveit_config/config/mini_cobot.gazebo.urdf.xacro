@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mini_cobot">
+  <xacro:arg
+    name="initial_positions_file"
+    default="$(find mini_cobot_moveit_config)/config/gazebo_initial_positions.yaml"/>
+  <xacro:arg
+    name="controllers_file"
+    default="$(find mini_cobot_moveit_config)/config/gazebo_ros2_controllers.yaml"/>
+
+  <xacro:include filename="$(find scout_description)/urdf/mini_cobot.xacro"/>
+  <xacro:include filename="mini_cobot.gazebo.ros2_control.xacro"/>
+
+  <xacro:mini_cobot_gazebo_ros2_control
+    name="GazeboSystem"
+    initial_positions_file="$(arg initial_positions_file)"
+    controllers_file="$(arg controllers_file)"/>
+
+  <gazebo reference="gripper_link1">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>1000000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+  <gazebo reference="gripper_link2">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>1000000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+</robot>

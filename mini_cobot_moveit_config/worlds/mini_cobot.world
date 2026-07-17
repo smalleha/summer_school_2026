@@ -1,0 +1,1472 @@
+<sdf version='1.7'>
+  <world name='mini_cobot_world'>
+    <physics name='ode_physics' default='1' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <real_time_factor>1</real_time_factor>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>100</iters>
+          <sor>1.3</sor>
+          <use_dynamic_moi_rescaling>0</use_dynamic_moi_rescaling>
+        </solver>
+        <constraints>
+          <cfm>0</cfm>
+          <erp>0.2</erp>
+          <contact_max_correcting_vel>100</contact_max_correcting_vel>
+          <contact_surface_layer>0.001</contact_surface_layer>
+        </constraints>
+      </ode>
+    </physics>
+    <gravity>0 0 -9.81</gravity>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='ground_link'>
+        <collision name='ground_collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ground_visual'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <audio>
+      <device>default</device>
+    </audio>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='mini_cobot'>
+      <link name='base_link'>
+        <inertial>
+          <pose>0.002678 1e-06 0.003129 0 -0 0</pose>
+          <mass>51.22</mass>
+          <inertia>
+            <ixx>2.3126</ixx>
+            <ixy>-3.15542e-06</ixy>
+            <ixz>-0.0166893</ixz>
+            <iyy>5.14498</iyy>
+            <iyz>-3.22357e-06</iyz>
+            <izz>3.44935</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_link_collision'>
+          <pose>0 0 0 1.57 -0 1.57</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/scout_mini_base_link2.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='base_link_fixed_joint_lump__arm_base_collision_1'>
+          <pose>0.1 0 0.1 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/base_link.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='base_link_fixed_joint_lump__livox_frame_collision_2'>
+          <pose>0.2 0 0.08 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.04</length>
+              <radius>0.035</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='base_link_visual'>
+          <pose>0 0 0 1.57 0 -1.57</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/scout_mini_base_link2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='base_link_fixed_joint_lump__arm_base_visual_1'>
+          <pose>0.1 0 0.1 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/base_link.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='base_link_fixed_joint_lump__livox_frame_visual_2'>
+          <pose>0.2 0 0.08 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.04</length>
+              <radius>0.035</radius>
+            </cylinder>
+          </geometry>
+        </visual>
+        <sensor name='livox_mid360' type='ray'>
+          <always_on>1</always_on>
+          <visualize>0</visualize>
+          <update_rate>10</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>360</samples>
+                <resolution>1</resolution>
+                <min_angle>-1.745</min_angle>
+                <max_angle>1.745</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>50</samples>
+                <resolution>1</resolution>
+                <min_angle>-0.126</min_angle>
+                <max_angle>0.963</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0.14</min>
+              <max>40</max>
+              <resolution>0.01</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </ray>
+          <plugin name='gazebo_ros_ray_sensor' filename='libgazebo_ros_ray_sensor.so'>
+            <ros>
+              <namespace>/</namespace>
+              <remapping>~/out:=/livox/lidar</remapping>
+            </ros>
+            <output_type>sensor_msgs/PointCloud2</output_type>
+            <frame_name>livox_frame</frame_name>
+          </plugin>
+          <pose>0.2 0 0.08 0 -0 0</pose>
+        </sensor>
+        <sensor name='lidar_imu' type='imu'>
+          <always_on>1</always_on>
+          <update_rate>200</update_rate>
+          <visualize>0</visualize>
+          <plugin name='lidar_imu_plugin' filename='libgazebo_ros_imu_sensor.so'>
+            <ros>
+              <namespace>/</namespace>
+              <remapping>~/out:=/livox/imu</remapping>
+            </ros>
+            <initial_orientation_as_reference>0</initial_orientation_as_reference>
+          </plugin>
+          <imu>
+            <angular_velocity>
+              <x>
+                <noise type='gaussian'>
+                  <mean>0</mean>
+                  <stddev>0.0002</stddev>
+                </noise>
+              </x>
+              <y>
+                <noise type='gaussian'>
+                  <mean>0</mean>
+                  <stddev>0.0002</stddev>
+                </noise>
+              </y>
+              <z>
+                <noise type='gaussian'>
+                  <mean>0</mean>
+                  <stddev>0.0002</stddev>
+                </noise>
+              </z>
+            </angular_velocity>
+            <linear_acceleration>
+              <x>
+                <noise type='gaussian'>
+                  <mean>0</mean>
+                  <stddev>0.017</stddev>
+                </noise>
+              </x>
+              <y>
+                <noise type='gaussian'>
+                  <mean>0</mean>
+                  <stddev>0.017</stddev>
+                </noise>
+              </y>
+              <z>
+                <noise type='gaussian'>
+                  <mean>0</mean>
+                  <stddev>0.017</stddev>
+                </noise>
+              </z>
+            </linear_acceleration>
+          </imu>
+          <pose>0.2 0 0.08 0 -0 0</pose>
+        </sensor>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint1' type='revolute'>
+        <pose relative_to='base_link'>0.1 0 0.223 0 -0 0</pose>
+        <parent>base_link</parent>
+        <child>link1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.61799</lower>
+            <upper>2.61799</upper>
+            <effort>100</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link1'>
+        <pose relative_to='joint1'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.00032 -0.00041 -0.00348 0 -0 0</pose>
+          <mass>0.71</mass>
+          <inertia>
+            <ixx>0.00050027</ixx>
+            <ixy>7.8e-07</ixy>
+            <ixz>6.26e-06</ixz>
+            <iyy>0.00040879</iyy>
+            <iyz>4.62e-06</iyz>
+            <izz>0.00045802</izz>
+          </inertia>
+        </inertial>
+        <collision name='link1_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/link1.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='link1_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/link1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint2' type='revolute'>
+        <pose relative_to='link1'>0 0 0 1.5708 -0.135787 -3.14159</pose>
+        <parent>link1</parent>
+        <child>link2</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>3.14159</upper>
+            <effort>100</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link2'>
+        <pose relative_to='joint2'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.21852 -0.00861 0.00126 0 -0 0</pose>
+          <mass>1.16</mass>
+          <inertia>
+            <ixx>0.00111915</ixx>
+            <ixy>0.00182916</ixy>
+            <ixz>0.00019233</ixz>
+            <iyy>0.0676325</iyy>
+            <iyz>7.67e-06</iyz>
+            <izz>0.067559</izz>
+          </inertia>
+        </inertial>
+        <collision name='link2_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/link2.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='link2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/link2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint3' type='revolute'>
+        <pose relative_to='link2'>0.28503 0 0 0 0 -1.79385</pose>
+        <parent>link2</parent>
+        <child>link3</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.96706</lower>
+            <upper>0</upper>
+            <effort>100</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link3'>
+        <pose relative_to='joint3'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.01999 -0.14808 -0.00053 0 -0 0</pose>
+          <mass>0.5</mass>
+          <inertia>
+            <ixx>0.0134761</ixx>
+            <ixy>0.00161034</ixy>
+            <ixz>6.6e-07</ixz>
+            <iyy>0.00046377</iyy>
+            <iyz>1.62e-06</iyz>
+            <izz>0.0136332</izz>
+          </inertia>
+        </inertial>
+        <collision name='link3_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/link3.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='link3_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/link3.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint4' type='revolute'>
+        <pose relative_to='link3'>-0.02198 -0.25075 0 1.5708 -0 0</pose>
+        <parent>link3</parent>
+        <child>link4</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1.74533</lower>
+            <upper>1.74533</upper>
+            <effort>100</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link4'>
+        <pose relative_to='joint4'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.00013 -0.00076 -0.00394 0 -0 0</pose>
+          <mass>0.38</mass>
+          <inertia>
+            <ixx>0.00017844</ixx>
+            <ixy>6.2e-07</ixy>
+            <ixz>6.7e-07</ixz>
+            <iyy>0.00018914</iyy>
+            <iyz>4.08e-06</iyz>
+            <izz>0.00014613</izz>
+          </inertia>
+        </inertial>
+        <collision name='link4_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/link4.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='link4_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/link4.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint5' type='revolute'>
+        <pose relative_to='link4'>0 0 0 -1.5708 0 0</pose>
+        <parent>link4</parent>
+        <child>link5</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1.22173</lower>
+            <upper>1.22173</upper>
+            <effort>100</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link5'>
+        <pose relative_to='joint5'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.00018 -0.06104 -0.00227 0 -0 0</pose>
+          <mass>0.383</mass>
+          <inertia>
+            <ixx>0.00172318</ixx>
+            <ixy>2.59e-06</ixy>
+            <ixz>1e-07</ixz>
+            <iyy>0.00017936</iyy>
+            <iyz>9.9e-06</iyz>
+            <izz>0.00171172</izz>
+          </inertia>
+        </inertial>
+        <collision name='link5_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/link5.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='link5_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/link5.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint6' type='revolute'>
+        <pose relative_to='link5'>8.8e-05 -0.091 0 1.5708 -0 0</pose>
+        <parent>link5</parent>
+        <child>link6</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.0944</lower>
+            <upper>2.0944</upper>
+            <effort>100</effort>
+            <velocity>5</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link6'>
+        <pose relative_to='joint6'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.016661 -0.00136 0.029616 0 -0 0</pose>
+          <mass>0.729</mass>
+          <inertia>
+            <ixx>0.00656492</ixx>
+            <ixy>-4.844e-05</ixy>
+            <ixz>-1.1331e-05</ixz>
+            <iyy>0.00323982</iyy>
+            <iyz>5.45163e-06</iyz>
+            <izz>0.00510888</izz>
+          </inertia>
+        </inertial>
+        <collision name='link6_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/link6.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='link6_fixed_joint_lump__gripper_base_collision_1'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/gripper_base.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='link6_fixed_joint_lump__camera_stand_link_collision_2'>
+          <pose>-0.034 -0.001 0.022 -1.57 0 1.57</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/meshes/realsense_mid_stand.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='link6_fixed_joint_lump__camera_link_collision_3'>
+          <pose>-0.073096 -0.029 0.03805 0 -1.22 0</pose>
+          <geometry>
+            <box>
+              <size>0.02505 0.09 0.025</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link6_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/link6.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='link6_fixed_joint_lump__gripper_base_visual_1'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/gripper_base.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='link6_fixed_joint_lump__camera_stand_link_visual_2'>
+          <pose>-0.034 -0.001 0.022 -1.57 0 1.57</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/meshes/realsense_mid_stand.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='link6_fixed_joint_lump__camera_link_visual_3'>
+          <pose>-0.071618 -0.029 0.042088 0.350796 -0 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://realsense2_description/meshes/d435.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <sensor name='d435_rgbd_camera' type='depth'>
+          <always_on>1</always_on>
+          <visualize>0</visualize>
+          <update_rate>30</update_rate>
+          <camera name='d435_rgbd'>
+            <horizontal_fov>1.21126</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+              <anti_aliasing>2</anti_aliasing>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>10</far>
+            </clip>
+            <distortion>
+              <k1>0</k1>
+              <k2>0</k2>
+              <k3>0</k3>
+              <p1>0</p1>
+              <p2>0</p2>
+              <center>0.5 0.5</center>
+            </distortion>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.005</stddev>
+            </noise>
+          </camera>
+          <plugin name='d435_rgbd_camera_controller' filename='libgazebo_ros_camera.so'>
+            <ros>
+              <namespace>/camera</namespace>
+              <remapping>camera/image_raw:=color/image_raw</remapping>
+              <remapping>camera/camera_info:=color/camera_info</remapping>
+              <remapping>camera/depth/image_raw:=depth/image_raw</remapping>
+              <remapping>camera/depth/camera_info:=depth/camera_info</remapping>
+              <remapping>camera/points:=depth/color/points</remapping>
+            </ros>
+            <camera_name>camera</camera_name>
+            <frame_name>camera_color_optical_frame</frame_name>
+            <min_depth>0.10</min_depth>
+            <max_depth>10.0</max_depth>
+            <focal_length>462.13869</focal_length>
+            <cx>319.5</cx>
+            <cy>239.5</cy>
+            <P_fx>462.13869</P_fx>
+            <P_fy>462.13869</P_fy>
+            <P_cx>319.5</P_cx>
+            <P_cy>239.5</P_cy>
+            <Tx>0.0</Tx>
+            <Ty>0.0</Ty>
+            <hack_baseline>0.0</hack_baseline>
+            <border_crop>0</border_crop>
+            <rectification_matrix>1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0</rectification_matrix>
+          </plugin>
+          <pose>-0.073096 -0.0115 0.03805 0 -1.22 0</pose>
+        </sensor>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='gripper_joint1' type='prismatic'>
+        <pose relative_to='link6'>0 0 0.1358 1.5708 -0 0</pose>
+        <parent>link6</parent>
+        <child>gripper_link1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.05</upper>
+            <effort>10</effort>
+            <velocity>3</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='gripper_link1'>
+        <pose relative_to='gripper_joint1'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.000651 -0.049193 0.009723 0 -0 0</pose>
+          <mass>0.025</mass>
+          <inertia>
+            <ixx>7.371e-05</ixx>
+            <ixy>-1.13e-06</ixy>
+            <ixz>2.1e-07</ixz>
+            <iyy>7.81e-06</iyy>
+            <iyz>-1.372e-05</iyz>
+            <izz>7.47e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='gripper_link1_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/gripper_link1.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>10</kd>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='gripper_link1_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/gripper_link1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='gripper_joint2' type='prismatic'>
+        <pose relative_to='link6'>0 0 0.1358 1.5708 -0 -3.14159</pose>
+        <parent>link6</parent>
+        <child>gripper_link2</child>
+        <axis>
+          <xyz>0 0 -1</xyz>
+          <limit>
+            <lower>-0.05</lower>
+            <upper>0</upper>
+            <effort>10</effort>
+            <velocity>3</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='gripper_link2'>
+        <pose relative_to='gripper_joint2'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.000651 -0.049193 0.009723 0 -0 0</pose>
+          <mass>0.025</mass>
+          <inertia>
+            <ixx>7.371e-05</ixx>
+            <ixy>-1.13e-06</ixy>
+            <ixz>2.1e-07</ixz>
+            <iyy>7.81e-06</iyy>
+            <iyz>-1.372e-05</iyz>
+            <izz>7.47e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='gripper_link2_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/gripper_link2.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>10</kd>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='gripper_link2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://agx_arm_description/agx_arm_urdf/piper/meshes/dae/gripper_link2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='front_left_wheel' type='revolute'>
+        <pose relative_to='base_link'>0.231976 0.208252 -0.100998 -1.57 0 0</pose>
+        <parent>base_link</parent>
+        <child>front_left_wheel_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='front_left_wheel_link'>
+        <pose relative_to='front_left_wheel'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>3</mass>
+          <inertia>
+            <ixx>0.7171</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.7171</iyy>
+            <iyz>0</iyz>
+            <izz>0.1361</izz>
+          </inertia>
+        </inertial>
+        <collision name='front_left_wheel_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/wheel.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='front_left_wheel_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/wheel.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='front_right_wheel' type='revolute'>
+        <pose relative_to='base_link'>0.231976 -0.208252 -0.099998 1.57 -0 0</pose>
+        <parent>base_link</parent>
+        <child>front_right_wheel_link</child>
+        <axis>
+          <xyz>0 0 -1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='front_right_wheel_link'>
+        <pose relative_to='front_right_wheel'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>3</mass>
+          <inertia>
+            <ixx>0.7171</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.7171</iyy>
+            <iyz>0</iyz>
+            <izz>0.1361</izz>
+          </inertia>
+        </inertial>
+        <collision name='front_right_wheel_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/wheel.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='front_right_wheel_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/wheel.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='rear_left_wheel' type='revolute'>
+        <pose relative_to='base_link'>-0.231976 0.208252 -0.100998 -1.57 0 0</pose>
+        <parent>base_link</parent>
+        <child>rear_left_wheel_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='rear_left_wheel_link'>
+        <pose relative_to='rear_left_wheel'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>3</mass>
+          <inertia>
+            <ixx>0.7171</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.7171</iyy>
+            <iyz>0</iyz>
+            <izz>0.1361</izz>
+          </inertia>
+        </inertial>
+        <collision name='rear_left_wheel_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/wheel.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='rear_left_wheel_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/wheel.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='rear_right_wheel' type='revolute'>
+        <pose relative_to='base_link'>-0.231976 -0.208252 -0.099998 1.57 -0 0</pose>
+        <parent>base_link</parent>
+        <child>rear_right_wheel_link</child>
+        <axis>
+          <xyz>0 0 -1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='rear_right_wheel_link'>
+        <pose relative_to='rear_right_wheel'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>3</mass>
+          <inertia>
+            <ixx>0.7171</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.7171</iyy>
+            <iyz>0</iyz>
+            <izz>0.1361</izz>
+          </inertia>
+        </inertial>
+        <collision name='rear_right_wheel_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/wheel.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='rear_right_wheel_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/agilex/ros2_project/mini_cobot/install/scout_description/share/scout_description/meshes/wheel.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+        <ros>
+          <namespace>/</namespace>
+          <remapping>cmd_vel:=cmd_vel</remapping>
+          <remapping>odom:=odom</remapping>
+        </ros>
+        <update_rate>30</update_rate>
+        <num_wheel_pairs>2</num_wheel_pairs>
+        <left_joint>front_left_wheel</left_joint>
+        <right_joint>front_right_wheel</right_joint>
+        <left_joint>rear_left_wheel</left_joint>
+        <right_joint>rear_right_wheel</right_joint>
+        <wheel_separation>0.451</wheel_separation>
+        <wheel_separation>0.451</wheel_separation>
+        <wheel_diameter>0.08</wheel_diameter>
+        <wheel_diameter>0.08</wheel_diameter>
+        <max_wheel_torque>1000</max_wheel_torque>
+        <max_wheel_acceleration>1.0</max_wheel_acceleration>
+        <publish_odom>1</publish_odom>
+        <publish_odom_tf>1</publish_odom_tf>
+        <publish_wheel_tf>1</publish_wheel_tf>
+        <odometry_frame>odom</odometry_frame>
+        <robot_base_frame>base_link</robot_base_frame>
+      </plugin>
+      <static>0</static>
+      <plugin name='gazebo_ros2_control' filename='libgazebo_ros2_control.so'>
+        <parameters>/home/agilex/ros2_project/mini_cobot/install/mini_cobot_moveit_config/share/mini_cobot_moveit_config/config/gazebo_ros2_controllers.yaml</parameters>
+      </plugin>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+    <model name='iscas_museum'>
+      <link name='link'>
+        <inertial>
+          <mass>15</mass>
+        </inertial>
+        <collision name='collision'>
+          <pose>0 0 0 0 0 -1.57</pose>
+          <geometry>
+            <mesh>
+              <uri>model://iscas_museum/meshes/ISCAS_museum.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <pose>0 0 0 0 0 -1.57</pose>
+          <geometry>
+            <mesh>
+              <uri>model://iscas_museum/meshes/ISCAS_museum.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>1</static>
+      <pose>-1.45695 1.56703 0 0 -0 0</pose>
+    </model>
+    <state world_name='mini_cobot_world'>
+      <sim_time>46 152000000</sim_time>
+      <real_time>77 123081571</real_time>
+      <wall_time>1784256265 221702119</wall_time>
+      <iterations>46152</iterations>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='ground_link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='iscas_museum'>
+        <pose>-1.45695 1.56703 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-1.45695 1.56703 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='mini_cobot'>
+        <pose>-0.066278 0.051539 0.180405 -0.001918 6e-06 0.036659</pose>
+        <scale>1 1 1</scale>
+        <link name='base_link'>
+          <pose>-0.066278 0.051539 0.180405 -0.001918 6e-06 0.036659</pose>
+          <velocity>6e-05 -4e-06 0.004991 -3.4e-05 0.000372 3e-06</velocity>
+          <acceleration>0.081001 -0.000579 9.98074 -0.035144 0.744204 -0.004635</acceleration>
+          <wrench>4.14886 -0.029663 511.213 0 -0 0</wrench>
+        </link>
+        <link name='front_left_wheel_link'>
+          <pose>0.157916 0.267959 0.079006 -1.57192 -0.001031 0.03666</pose>
+          <velocity>2.8e-05 4e-06 0.004745 -5.7e-05 0.000351 2e-06</velocity>
+          <acceleration>0.015923 0.014505 9.48979 2.91419 -0.6686 3.13684</acceleration>
+          <wrench>0.047769 0.043516 28.4694 0 -0 0</wrench>
+        </link>
+        <link name='front_right_wheel_link'>
+          <pose>0.173181 -0.148262 0.080806 1.56807 -0.096174 0.036921</pose>
+          <velocity>2.7e-05 -1e-06 0.005064 1.1e-05 0.000337 4e-06</velocity>
+          <acceleration>0.00964 0.004011 10.1287 3.05131 -0.587865 3.1326</acceleration>
+          <wrench>0.02892 0.012032 30.3861 0 -0 0</wrench>
+        </link>
+        <link name='gripper_link1'>
+          <pose>0.203028 0.053717 0.585017 1.44456 1.11439 -0.131019</pose>
+          <velocity>0.002691 5.7e-05 -0.012596 -4e-05 -0.004533 0.000315</velocity>
+          <acceleration>2.93899 0.056721 -7.85952 3.03108 -0.605939 1.37785</acceleration>
+          <wrench>0.073475 0.001418 -0.196488 0 -0 0</wrench>
+        </link>
+        <link name='gripper_link2'>
+          <pose>0.203751 0.094844 0.582731 1.69704 -1.11439 3.01057</pose>
+          <velocity>0.002685 6.6e-05 -0.012598 -0.000432 -0.004582 0.000338</velocity>
+          <acceleration>2.9267 0.056456 -7.86874 0.547683 -1.22651 -2.45531</acceleration>
+          <wrench>0.073168 0.001411 -0.196718 0 -0 0</wrench>
+        </link>
+        <link name='link1'>
+          <pose>0.033641 0.055631 0.403404 -0.001917 -0.000295 -0.000876</pose>
+          <velocity>0.000128 4e-06 0.004922 -7.8e-05 -0.023787 0.000305</velocity>
+          <acceleration>0.311399 0.013808 9.88392 3.02641 1.42276 -2.83996</acceleration>
+          <wrench>0.221093 0.009804 7.01758 0 -0 0</wrench>
+        </link>
+        <link name='link2'>
+          <pose>0.033642 0.055631 0.403404 1.57273 -0.135511 3.14046</pose>
+          <velocity>0.000233 4e-06 0.004906 -5.6e-05 -0.003682 -5.1e-05</velocity>
+          <acceleration>0.264592 0.028831 9.13948 -2.5374 0.184274 -2.59448</acceleration>
+          <wrench>0.306927 0.033443 10.6018 0 -0 0</wrench>
+        </link>
+        <link name='link3'>
+          <pose>-0.248775 0.055953 0.44191 -1.59278 1.48331 -0.02277</pose>
+          <velocity>7.7e-05 2.1e-05 0.003871 1.2e-05 0.07016 -0.000192</velocity>
+          <acceleration>2.50974 0.007131 -1.35147 -0.82323 1.08804 1.46384</acceleration>
+          <wrench>1.25487 0.003566 -0.675734 0 -0 0</wrench>
+        </link>
+        <link name='link4'>
+          <pose>-0.000904 0.05582 0.485711 -0.283648 1.47968 -0.285478</pose>
+          <velocity>0.003142 -2.7e-05 -0.013524 0.00364 0.070229 0.000157</velocity>
+          <acceleration>3.24217 -0.011967 -8.28362 2.73919 1.46384 2.01891</acceleration>
+          <wrench>1.23203 -0.004548 -3.14778 0 -0 0</wrench>
+        </link>
+        <link name='link5'>
+          <pose>-0.000904 0.05582 0.485711 -1.62897 1.11747 -0.055254</pose>
+          <velocity>0.003137 -2.7e-05 -0.013526 0.003418 -0.004512 0.002068</velocity>
+          <acceleration>3.1625 0.009813 -8.3371 2.30023 0.085378 -2.14646</acceleration>
+          <wrench>1.21124 0.003759 -3.19311 0 -0 0</wrench>
+        </link>
+        <link name='link6'>
+          <pose>0.080972 0.05659 0.525419 -0.126243 1.11439 -0.131021</pose>
+          <velocity>0.002959 7e-06 -0.013151 -0.000144 -0.004539 0.000337</velocity>
+          <acceleration>2.98954 0.032124 -8.13453 2.93536 1.0325 -2.74665</acceleration>
+          <wrench>2.17938 0.023418 -5.93007 0 -0 0</wrench>
+        </link>
+        <link name='rear_left_wheel_link'>
+          <pose>-0.305724 0.250955 0.07901 -1.57192 -0.002848 0.036662</pose>
+          <velocity>3e-05 -1e-05 0.005263 0.000124 0.000384 3e-06</velocity>
+          <acceleration>0.020715 -0.008359 10.5261 -3.01161 -0.822671 3.13695</acceleration>
+          <wrench>0.062145 -0.025077 31.5784 0 -0 0</wrench>
+        </link>
+        <link name='rear_right_wheel_link'>
+          <pose>-0.290459 -0.165266 0.080807 1.56807 -0.091867 0.036909</pose>
+          <velocity>2.7e-05 -5e-06 0.004907 5.8e-05 0.000333 4e-06</velocity>
+          <acceleration>0.008931 0.001079 9.81315 -3.13612 -0.560902 3.13267</acceleration>
+          <wrench>0.026793 0.003236 29.4395 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-6.34082 -1.97045 38.4894 0 1.4098 0.064196</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

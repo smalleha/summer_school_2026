@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: scout_description
+    relative_path: urdf/mini_cobot.xacro
+  srdf:
+    relative_path: config/mini_cobot.srdf
+  package_settings:
+    author_name: agilex
+    author_email: agilex@agilex.ai
+    generated_timestamp: 1784015115
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
